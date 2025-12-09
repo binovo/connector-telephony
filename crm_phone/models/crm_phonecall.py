@@ -101,3 +101,9 @@ class CrmPhonecall(models.Model):
             'context': ctx,
             })
         return action
+
+    @api.model
+    def default_get(self, fields_list):
+        res = super().default_get(fields_list)
+        res["state"] = "done" if self.env.context.get("search_default_done") else "open"
+        return res
